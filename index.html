@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jubilation School | Excellence in Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #FFD700;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --transition: all 0.3s ease;
+            --bg-body: white;
+            --text-main: #333;
+            --card-bg: white;
+            --table-border: #ddd;
+        }
+
+        /* Dark Mode Colors */
+        body.dark-theme {
+            --bg-body: #121212;
+            --text-main: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --light: #2d2d2d;
+            --table-border: #444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-body); color: var(--text-main); transition: var(--transition); }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 10%;
+            background: var(--card-bg);
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .nav-links { display: flex; list-style: none; align-items: center; }
+        .nav-links li { margin-left: 1.5rem; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 500; transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* Theme Toggle Button */
+        #theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-left: 15px;
+        }
+
+        /* Hero Section (The Blue Part) */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(rgba(0,51,102,0.7), rgba(0,51,102,0.7)), 
+                        url('https://images.unsplash.com/photo-1523050853063-913c3e961da5?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; animation: fadeInDown 1s; }
+        .btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-block;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-yellow { background: var(--secondary); color: var(--primary); }
+        .btn-yellow:hover { transform: scale(1.05); background: #e6c200; }
+
+        /* Sections */
+        section { padding: 80px 10%; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { color: var(--primary); font-size: 2.5rem; }
+
+        /* Grid for Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: var(--transition);
+        }
+        .card:hover { transform: translateY(-10px); }
+        .card i { font-size: 3rem; color: var(--secondary); margin-bottom: 20px; }
+
+        /* Fees Table */
+        .fees-container { overflow-x: auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--table-border);
+        }
+        th { background: var(--primary); color: white; }
+
+        /* Forms */
+        .form-container { background: var(--light); border-radius: 15px; padding: 40px; max-width: 600px; margin: 20px auto; }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text-main);
+        }
+
+        /* Results Tool Styles */
+        .results-box {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            display: none;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><i class="fas fa-graduation-cap"></i> Jubilation</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#academics">Academics</a></li>
+            <li><a href="#fees">Fees</a></li>
+            <li><a href="#apply">Admissions</a></li>
+            <li><a href="#portal" style="color: var(--primary); font-weight: bold;"><i class="fas fa-user-circle"></i> Portal</a></li>
+            <li><button id="theme-toggle"><i class="fas fa-moon"></i></button></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero" style="padding: 0;">
+        <h1>Unlocking Potential, Every Day.</h1>
+        <p>Providing a world-class education with a focus on character and innovation.</p>
+        <div>
+            <a href="#apply" class="btn btn-yellow">Apply Today</a>
+            <a href="#about" class="btn" style="border: 2px solid white; color: white;">Learn More</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-title">
+            <h2>Why Choose Jubilation?</h2>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <i class="fas fa-microscope"></i>
+                <h3>Innovation</h3>
+                <p>State-of-the-art labs and modern STEM-focused curriculum.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-heart"></i>
+                <h3>Values</h3>
+                <p>We nurture discipline, integrity, and social responsibility.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-users"></i>
+                <h3>Top Faculty</h3>
+                <p>Expert educators dedicated to personalized student growth.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="academics">
+        <div class="section-title">
+            <h2>Academics & Results</h2>
+            <p>Check student performance and explore our curriculum.</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h3>Check Exam Results</h3>
+                <p>Enter Student ID to view current semester performance.</p>
+                <input type="text" id="studentIdInput" placeholder="Enter Student ID (e.g. 123)">
+                <button onclick="checkResults()" class="btn btn-yellow" style="width: 100%;">View Results</button>
+                
+                <div id="resultsDisplay" class="results-box">
+                    <h4 id="resName"></h4>
+                    <p id="resGrade"></p>
+                    <p id="resStatus"></p>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Our Curriculum</h3>
+                <p>We offer a hybrid curriculum blending local standards with international best practices.</p>
+                <ul style="list-style: none; text-align: left; margin-top: 10px;">
+                    <li><i class="fas fa-check-circle"></i> ICT & Robotics</li>
+                    <li><i class="fas fa-check-circle"></i> Creative Arts</li>
+                    <li><i class="fas fa-check-circle"></i> Advanced Sciences</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="fees" style="background: var(--light);">
+        <div class="section-title">
+            <h2>School Fee Structure</h2>
+            <p>Transparent and affordable education for all levels.</p>
+        </div>
+        <div class="fees-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Grade Level</th>
+                        <th>Tuition Fee (Annual)</th>
+                        <th>Lab & Library Fees</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Primary (Grades 1-5)</td>
+                        <td>$2,500</td>
+                        <td>$200</td>
+                        <td><strong>$2,700</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Junior Secondary</td>
+                        <td>$3,200</td>
+                        <td>$350</td>
+                        <td><strong>$3,550</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Senior Secondary</td>
+                        <td>$4,000</td>
+                        <td>$500</td>
+                        <td><strong>$4,500</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="apply">
+        <div class="section-title">
+            <h2>Online Admission</h2>
+            <p>Start your journey with us by filling the form below.</p>
+        </div>
+        <div class="form-container">
+            <form action="process_admission.php" method="POST">
+                <input type="text" name="student_name" placeholder="Full Student Name" required>
+                <input type="email" name="email" placeholder="Guardian Email Address" required>
+                <select name="grade_level" required>
+                    <option value="">Select Grade Level</option>
+                    <option value="primary">Primary School</option>
+                    <option value="secondary">Secondary School</option>
+                </select>
+                <textarea name="message" rows="4" placeholder="Any specific requirements or questions?"></textarea>
+                <button type="submit" class="btn btn-yellow" style="width: 100%;">Submit Application</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="portal">
+        <div class="form-container">
+            <h2 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Portal Login</h2>
+            <form action="auth.php" method="POST">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <select name="role">
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                </select>
+                <button type="submit" class="btn btn-yellow" style="width: 100%;">Login to Portal</button>
+            </form>
+        </div>
+    </section>
+
+    <footer style="background: var(--primary); color: white; padding: 40px 10%; text-align: center;">
+        <p>&copy; 2026 Jubilation School. All Rights Reserved.</p>
+        <div style="margin-top: 20px;">
+            <i class="fab fa-facebook mx-3"></i>
+            <i class="fab fa-twitter mx-3"></i>
+            <i class="fab fa-instagram mx-3"></i>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Dark/White Mode Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            if(body.classList.contains('dark-theme')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        // 2. Exam Results Simulation Logic
+        function checkResults() {
+            const id = document.getElementById('studentIdInput').value;
+            const display = document.getElementById('resultsDisplay');
+            
+            if(id === "123") {
+                display.style.display = "block";
+                document.getElementById('resName').innerText = "Student: John Doe";
+                document.getElementById('resGrade').innerText = "GPA: 3.8 / 4.0";
+                document.getElementById('resStatus').innerText = "Status: Promoted to Next Grade";
+            } else if(id === "") {
+                alert("Please enter a valid Student ID");
+            } else {
+                display.style.display = "block";
+                document.getElementById('resName').innerText = "Record Not Found";
+                document.getElementById('resGrade').innerText = "";
+                document.getElementById('resStatus').innerText = "Please contact the admin office.";
+            }
+        }
+
+        // 3. Smooth Scrolling for all buttons
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
